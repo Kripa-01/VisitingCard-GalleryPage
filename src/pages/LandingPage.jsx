@@ -7,6 +7,7 @@ import ShajiRapheal from "../assets/Shaji Rapheal.png";
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Footer from '../components/Footer';
 
 const LandingPage = () => {
   const [images, setImages] = useState([]);
@@ -65,7 +66,7 @@ const LandingPage = () => {
         <img alt="Banner" src={ShajiRapheal} className="w-full" />
 
         <div className="p-6 max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8 text-white">Photo Gallery</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-center mb-8 text-white">Photo Gallery</h1>
 
           {images.length === 0 ? (
             <div className="text-center text-gray-500">No images uploaded yet</div>
@@ -87,6 +88,7 @@ const LandingPage = () => {
             </Box>
           )}
         </div>
+        <Footer/>
       </div>
     </>
   );
