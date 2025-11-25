@@ -78,7 +78,7 @@ const LandingPage = () => {
                       src={`${item.imageUrl}?w=400&fit=crop&auto=format`}
                       srcSet={`${item.imageUrl}?w=400&fit=crop&auto=format&dpr=2 2x`}
                       alt="Gallery"
-                      loading="lazy"
+                      loading=  "lazy"
                       style={{ borderRadius: "10px" }}
                     />
                   </ImageListItem>
