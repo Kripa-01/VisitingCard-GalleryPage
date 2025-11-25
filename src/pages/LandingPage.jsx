@@ -3,16 +3,20 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase/firebaseStore';
 import ShajiRapheal from "../assets/Shaji Rapheal.png";
 
-// MUI Masonry ImageList
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Modal from '@mui/material/Modal';
 import Footer from '../components/Footer';
 
 const LandingPage = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // New states for modal image
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
     fetchImages();
@@ -42,6 +46,16 @@ const LandingPage = () => {
     }
   };
 
+  const handleOpen = (url) => {
+    setSelectedImage(url);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedImage("");
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -66,7 +80,9 @@ const LandingPage = () => {
         <img alt="Banner" src={ShajiRapheal} className="w-full" />
 
         <div className="p-6 max-w-7xl mx-auto">
-          <h1 className="text-2xl md:text-3xl font-bold text-center mb-8 text-white">Photo Gallery</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-center mb-8 text-white">
+            Photo Gallery
+          </h1>
 
           {images.length === 0 ? (
             <div className="text-center text-gray-500">No images uploaded yet</div>
@@ -79,8 +95,9 @@ const LandingPage = () => {
                       src={`${item.imageUrl}?w=400&fit=crop&auto=format`}
                       srcSet={`${item.imageUrl}?w=400&fit=crop&auto=format&dpr=2 2x`}
                       alt="Gallery"
-                      loading=  "lazy"
-                      style={{ borderRadius: "10px" }}
+                      loading="lazy"
+                      style={{ borderRadius: "10px", cursor: "pointer" }}
+                      onClick={() => handleOpen(item.imageUrl)}
                     />
                   </ImageListItem>
                 ))}
@@ -88,7 +105,32 @@ const LandingPage = () => {
             </Box>
           )}
         </div>
-        <Footer/>
+
+        <Footer />
+
+        {/* Modal for viewing image */}
+        <Modal open={open} onClose={handleClose}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              outline: "none",
+            }}
+          >
+            <img
+              src={selectedImage}
+              alt="Full View"
+              style={{
+                maxHeight: "90vh",
+                maxWidth: "90vw",
+                borderRadius: "10px"
+              }}
+            />
+          </Box>
+        </Modal>
+
       </div>
     </>
   );
